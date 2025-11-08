@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import "./styles.css"
+import "./styles/styles.css"
 import { Reflector } from 'three/addons/objects/Reflector.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import cameraOrientationState from './camera_controls/cameraOrientationState.js'
-import { handleCameraRotation, handleMouseMovement } from './camera_controls/camerawithMouse.js'
+import cameraOrientationState from './utils/camera_controls/cameraOrientationState.js'
+import { handleCameraRotation, handleMouseMovement } from './utils/camera_controls/camerawithMouse.js'
 import gsap from 'gsap'
 
 
@@ -27,7 +27,7 @@ scene.add(groundMaterial)
 
 //Model
 const loader = new GLTFLoader();
-loader.load('monitor.glb', (gltf) => {
+loader.load('/models/monitor.glb', (gltf) => {
     const model = gltf.scene;
 
     scene.add(model);
