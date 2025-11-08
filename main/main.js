@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import "./styles/styles.css";
-import { Reflector } from "three/addons/objects/Reflector.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import cameraOrientationState from "./utils/camera_controls/cameraOrientationState.js";
 import {
   handleCameraRotation,
@@ -10,43 +8,22 @@ import {
 import gsap from "gsap";
 import { setupLights } from "./scene/lights.js";
 import { createScene } from "./scene/scene.js";
+import { navigateToPreset, setupCamera } from "./scene/camera.js";
 
 //Scene
 const scene = createScene();
 let zoomed = false;
 
-//Model
-const loader = new GLTFLoader();
-loader.load("/assets/scene.glb", (gltf) => {
-  const model = gltf.scene;
+//Light
+const { mainLight, bookLight, boardLight } = setupLights(scene);
 
-  scene.add(model);
-  model.traverse(function (node) {
-    if (node.isMesh) {
-      node.castShadow = true;
-      node.receiveShadow = true;
-    }
-  });
-});
-
-//Sizes
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 
-//Light
-const { mainLight, bookLight, boardLight } = setupLights(scene);
-
 //Camera
-const camera = new THREE.PerspectiveCamera(
-  45,
-  sizes.width / sizes.height,
-  0.1,
-  100
-);
-camera.position.set(0, 8.3, 15);
-scene.add(camera);
+const camera = setupCamera(scene, sizes);
 
 //Renderer
 const canvas = document.querySelector(".webgl");
@@ -101,44 +78,11 @@ function onMouseMove(event) {
 function zoomIn(event) {
   if (zoomed === false) {
     if (mouse.x > 0.3) {
-      gsap.to(camera.position, {
-        x: 10.17,
-        y: 9.0,
-        z: 4,
-        duration: 1.5,
-      });
-      gsap.to(camera.rotation, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1.5,
-      });
+      navigateToPreset(camera, "BOOKS", 1);
     } else if (mouse.x < -0.5) {
-      gsap.to(camera.position, {
-        x: -8,
-        y: 6.89,
-        z: 5.583,
-        duration: 1.5,
-      });
-      gsap.to(camera.rotation, {
-        x: 0,
-        y: 3.14 / 2,
-        z: 0,
-        duration: 1.5,
-      });
+      navigateToPreset(camera, "BOARD", 1);
     } else {
-      gsap.to(camera.position, {
-        x: 0,
-        y: 6.312,
-        z: 3.118,
-        duration: 1.5,
-      });
-      gsap.to(camera.rotation, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1.5,
-      });
+      navigateToPreset(camera, "SCREEN", 1);
     }
     zoomed = true;
   }
