@@ -1,14 +1,13 @@
 import * as THREE from "three";
-import "./styles/styles.css";
-import cameraOrientationState from "./utils/camera_controls/cameraOrientationState.js";
+import "main/styles/styles.css";
+import cameraOrientationState from "main/utils/camera_controls/cameraOrientationState.js";
 import {
   handleCameraRotation,
   handleMouseMovement,
-} from "./utils/camera_controls/camerawithMouse.js";
-import gsap from "gsap";
-import { setupLights } from "./scene/lights.js";
-import { createScene } from "./scene/scene.js";
-import { navigateToPreset, setupCamera } from "./scene/camera.js";
+} from "main/utils/camera_controls/camerawithMouse.js";
+import { setupLights } from "main/scene/lights.js";
+import { createScene } from "main/scene/scene.js";
+import { navigateToPreset, setupCamera } from "main/scene/camera.js";
 
 //Scene
 const scene = createScene();
