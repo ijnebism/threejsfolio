@@ -1,4 +1,5 @@
 @import url("https://rsms.me/inter/inter.css");
+@import "tailwindcss";
 
 * {
   box-sizing: border-box;
@@ -42,12 +43,6 @@ svg {
   }
 }
 
-canvas {
-  opacity: 0;
-  touch-action: none;
-  animation: fade-in 5s ease 1s forwards;
-}
-
 input {
   font-family: "Inter";
   width: 100px;
@@ -65,4 +60,23 @@ input {
 input:focus {
   outline: none;
   box-shadow: none !important;
+}
+
+.content {
+  width: 1820px;
+  height: 1080px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.wrapper {
+  padding: 0;
+  width: 1820px;
+  height: 1080px;
+  transform: scale(1);
+  transform-origin: top left;
+  pointer-events: auto;
 }

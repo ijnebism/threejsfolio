@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { Html, useGLTF } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
+import PCPage from "./PCPage.jsx";
 
 function Model(props) {
   const group = useRef();
@@ -10,6 +11,21 @@ function Model(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <primitive object={nodes.Scene} />
+      <mesh geometry={nodes["Monitor"].geometry}>
+        <Html
+          className="content"
+          rotation-x={0}
+          position={[0, 6.4, -0.6]}
+          transform
+          occlude
+          distanceFactor={1} // map DOM pixels more directly (tweak to taste)
+          scale={1} // explicit scale for transform-mode
+        >
+          <div className="wrapper" onPointerDown={(e) => e.stopPropagation()}>
+            <PCPage />
+          </div>
+        </Html>
+      </mesh>
     </group>
   );
 }
