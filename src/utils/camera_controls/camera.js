@@ -26,6 +26,10 @@ export const CAMERA_PRESETS = {
     position: { x: -8, y: 6.89, z: 5.583 },
     rotation: { x: 0, y: Math.PI / 2, z: 0 },
   },
+  DEFAULT: {
+    position: { x: 0, y: 8.3, z: 15 },
+    rotation: { x: 0, y: 0, z: 0 },
+  },
 };
 
 export function navigateToPreset(camera, preset, duration = 1) {

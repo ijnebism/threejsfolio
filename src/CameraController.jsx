@@ -1,5 +1,11 @@
+// CameraController.jsx
 import * as THREE from "three";
-import { useEffect, useRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import cameraOrientationState from "./utils/camera_controls/cameraOrientationState.js";
 import {
@@ -8,13 +14,27 @@ import {
 } from "./utils/camera_controls/camerawithMouse.js";
 import { navigateToPreset } from "./utils/camera_controls/camera.js";
 
-function CameraController({ mainLightRef, bookLightRef, boardLightRef }) {
+const CameraController = forwardRef(function CameraController(
+  { mainLightRef, bookLightRef, boardLightRef },
+  ref
+) {
   const { camera, gl } = useThree();
   const mouse = useRef({ x: 0, y: 0 });
   const zoomed = useRef(false);
-
-  // camera state used by your utils
   const cameraState = useRef(null);
+  useImperativeHandle(ref, () => ({
+    resetCamera: () => {
+      console.log("Resetting camera to DEFAULT preset");
+      navigateToPreset(camera, "DEFAULT", 1);
+      zoomed.current = false;
+
+      // restore light visibilities (tweak to your defaults)
+      if (mainLightRef?.current) mainLightRef.current.visible = true;
+      if (bookLightRef?.current) bookLightRef.current.visible = false;
+      if (boardLightRef?.current) boardLightRef.current.visible = false;
+    },
+    isZoomed: () => zoomed.current,
+  }));
 
   useEffect(() => {
     cameraState.current = new cameraOrientationState();
@@ -26,25 +46,22 @@ function CameraController({ mainLightRef, bookLightRef, boardLightRef }) {
       mouse.current.x = nx;
       mouse.current.y = ny;
 
-      // forward to your existing handler so state is updated exactly as before
-      if (cameraState.current) {
-        handleMouseMovement(nx, ny, cameraState.current);
-      }
+      if (cameraState.current) handleMouseMovement(nx, ny, cameraState.current);
 
-      // lights logic (same thresholds as before)
+      // light gating only when not zoomed
       if (!zoomed.current) {
         if (nx > 0.3) {
-          if (bookLightRef.current) bookLightRef.current.visible = true;
-          if (boardLightRef.current) boardLightRef.current.visible = false;
-          if (mainLightRef.current) mainLightRef.current.visible = false;
+          if (bookLightRef?.current) bookLightRef.current.visible = true;
+          if (boardLightRef?.current) boardLightRef.current.visible = false;
+          if (mainLightRef?.current) mainLightRef.current.visible = false;
         } else if (nx < -0.5) {
-          if (bookLightRef.current) bookLightRef.current.visible = false;
-          if (boardLightRef.current) boardLightRef.current.visible = true;
-          if (mainLightRef.current) mainLightRef.current.visible = false;
+          if (bookLightRef?.current) bookLightRef.current.visible = false;
+          if (boardLightRef?.current) boardLightRef.current.visible = true;
+          if (mainLightRef?.current) mainLightRef.current.visible = false;
         } else {
-          if (mainLightRef.current) mainLightRef.current.visible = true;
-          if (bookLightRef.current) bookLightRef.current.visible = false;
-          if (boardLightRef.current) boardLightRef.current.visible = false;
+          if (mainLightRef?.current) mainLightRef.current.visible = true;
+          if (bookLightRef?.current) bookLightRef.current.visible = false;
+          if (boardLightRef?.current) boardLightRef.current.visible = false;
         }
       }
     };
@@ -52,14 +69,9 @@ function CameraController({ mainLightRef, bookLightRef, boardLightRef }) {
     const onClick = () => {
       if (zoomed.current) return;
       const nx = mouse.current.x;
-      if (nx > 0.3) {
-        // reuse your existing navigation helper
-        navigateToPreset(camera, "BOOKS", 1);
-      } else if (nx < -0.5) {
-        navigateToPreset(camera, "BOARD", 1);
-      } else {
-        navigateToPreset(camera, "SCREEN", 1);
-      }
+      if (nx > 0.3) navigateToPreset(camera, "BOOKS", 1);
+      else if (nx < -0.5) navigateToPreset(camera, "BOARD", 1);
+      else navigateToPreset(camera, "SCREEN", 1);
       zoomed.current = true;
     };
 
@@ -71,7 +83,6 @@ function CameraController({ mainLightRef, bookLightRef, boardLightRef }) {
     };
   }, [gl.domElement, mainLightRef, bookLightRef, boardLightRef, camera]);
 
-  // call your existing rotation handler every frame (when not zoomed)
   useFrame(() => {
     if (!zoomed.current && cameraState.current) {
       handleCameraRotation(camera, cameraState.current);
@@ -79,6 +90,6 @@ function CameraController({ mainLightRef, bookLightRef, boardLightRef }) {
   });
 
   return null;
-}
+});
 
 export default CameraController;
