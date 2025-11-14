@@ -56,13 +56,20 @@ function DraggableApp({
   return (
     <div
       ref={windowRef}
-      className="absolute flex flex-col items-center text-white text-xs select-none"
+      className="absolute flex flex-col items-center text-white text-xs select-none hover:bg-slate-900/80 hover:border hover:border-slate-600"
       style={{ left: position.x, top: position.y }}
       onMouseDown={handleMouseDown}
       onDoubleClick={handleDoubleClick}
     >
-      <div className="w-12 h-12 rounded-md bg-slate-900/80 border border-slate-600 flex items-center justify-center">
-        {image && <img src={image} alt={label} className="w-10 h-10" />}
+      <div className="w-12 h-12 rounded-md flex items-center justify-center">
+        {image && (
+          <img
+            src={image}
+            alt={label}
+            className="w-10 h-10"
+            draggable={false}
+          />
+        )}
       </div>
       <span className="mt-1 max-w-20 text-center drop-shadow">{label}</span>
     </div>

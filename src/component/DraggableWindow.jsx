@@ -7,6 +7,7 @@ function DraggableWindow({
   initialX,
   initialY,
   onClose,
+  image,
   children,
 }) {
   const [position, setPosition] = useState({ x: initialX, y: initialY });
@@ -54,10 +55,20 @@ function DraggableWindow({
       style={{ left: position.x, top: position.y }}
     >
       <div
-        className="bg-gray-800 w-full cursor-move px-2 py-1 text-2xl"
+        className="bg-black w-full cursor-move px-2 py-1 text-2xl"
         onMouseDown={handleMouseDown}
       >
-        <div>{title}</div>
+        <div className="flex gap-2">
+          {image && (
+            <img
+              src={image}
+              alt={title}
+              className="w-8 h-8"
+              draggable={false}
+            />
+          )}
+          {title}
+        </div>
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -65,10 +76,10 @@ function DraggableWindow({
           }}
           className=" absolute top-0 right-0 m-1 text-white font-bold hover:text-red-500"
         >
-          ×
+          x
         </button>
       </div>
-      <div className="bg-white text-black p-2">{children}</div>
+      <div className="bg-white text-black">{children}</div>
     </div>
   );
 }
