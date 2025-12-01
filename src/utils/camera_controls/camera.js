@@ -46,5 +46,6 @@ export function navigateToPreset(camera, preset, duration = 1) {
     y: targetRot.y,
     z: targetRot.z,
     duration: duration,
+
   });
 }

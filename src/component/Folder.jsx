@@ -1,4 +1,3 @@
-// Folder.jsx
 import React, { useRef, useState, useEffect } from "react";
 import DraggableApp from "./DraggableApp";
 

@@ -2,15 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import Calendar from "./calender";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaBluesky } from "react-icons/fa6";
-import { useCameraControl } from "../CameraControllerContext.js";
 
-function TaskBar() {
+function TaskBar({ cameraControllerRef }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [startOpen, setStartOpen] = useState(false);
   const calendarRef = useRef(null); // ref to detect outside click
   const startRef = useRef(null);
-  const { resetCamera } = useCameraControl();
+  const resetCamera = () => {
+    if (cameraControllerRef?.current) {
+      cameraControllerRef.current.resetCamera();
+    } else {
+      console.warn("CameraController ref not available");
+    }
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -51,11 +56,11 @@ function TaskBar() {
   }, [calendarOpen, startOpen]);
 
   return (
-    <div className="h-18 bg-gray-700 text-white flex items-center absolute bottom-0 w-full">
+    <div className="h-18 bg-black text-white flex items-center absolute bottom-0 w-full">
       {/* Start */}
       <div
         onClick={() => setStartOpen(!startOpen)}
-        className="start-area cursor-default hover:bg-gray-600 absolute left-0 h-full items-center align-middle flex"
+        className="start-area cursor-default hover:bg-gray-800 absolute left-0 h-full items-center align-middle flex"
       >
         <div className="mx-4 text-center text-4xl">
           <h1>
@@ -77,9 +82,8 @@ function TaskBar() {
             <div
               onClick={() => {
                 resetCamera();
-                console.log("Camera reset");
               }}
-              className="bg-gray-600 bottom-18 absolute w-50 text-2xl p-4 cursor-default"
+              className="bg-gray-800 bottom-18 absolute w-50 text-2xl p-4 cursor-default"
             >
               Back
             </div>
@@ -90,7 +94,7 @@ function TaskBar() {
       {/* Calendar */}
       <div
         onClick={() => setCalendarOpen(!calendarOpen)}
-        className="time-area cursor-default hover:bg-gray-600 absolute right-0 h-full items-center align-middle flex"
+        className="time-area cursor-default hover:bg-gray-800 absolute right-0 h-full items-center align-middle flex"
       >
         <div className="mx-4 text-center">
           <div className="text-md">{currentDate.toLocaleTimeString()}</div>

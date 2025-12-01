@@ -62,7 +62,7 @@ function Calendar() {
   const monthKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}`;
 
   return (
-    <div className="bg-gray-700 text-white absolute right-0 w-80 bottom-18 p-4 cursor-default overflow-hidden shadow-lg">
+    <div className="bg-gray-800 text-white absolute right-0 w-80 bottom-18 p-4 cursor-default overflow-hidden shadow-lg">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h1>
@@ -76,14 +76,14 @@ function Calendar() {
           <button
             onClick={handlePrevMonth}
             aria-label="Previous month"
-            className="p-1 hover:bg-gray-600"
+            className="p-1 hover:bg-gray-800"
           >
             <FaChevronUp />
           </button>
           <button
             onClick={handleNextMonth}
             aria-label="Next month"
-            className="p-1 hover:bg-gray-600"
+            className="p-1 hover:bg-gray-800"
           >
             <FaChevronDown />
           </button>
@@ -119,7 +119,7 @@ function Calendar() {
                   key={i}
                   className={[
                     "py-2",
-                    inCurrentMonth ? "hover:bg-gray-600" : "text-gray-400",
+                    inCurrentMonth ? "hover:bg-gray-700" : "text-gray-400",
                     isToday && inCurrentMonth ? "bg-blue-500 font-bold" : "",
                   ].join(" ")}
                   title={date.toDateString()}

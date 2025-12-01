@@ -1,4 +1,3 @@
-// CameraController.jsx
 import * as THREE from "three";
 import React, {
   useEffect,
@@ -26,9 +25,10 @@ const CameraController = forwardRef(function CameraController(
     resetCamera: () => {
       console.log("Resetting camera to DEFAULT preset");
       navigateToPreset(camera, "DEFAULT", 1);
-      zoomed.current = false;
+      setTimeout(() => {
+        zoomed.current = false;
+      }, 1000); // match duration
 
-      // restore light visibilities (tweak to your defaults)
       if (mainLightRef?.current) mainLightRef.current.visible = true;
       if (bookLightRef?.current) bookLightRef.current.visible = false;
       if (boardLightRef?.current) boardLightRef.current.visible = false;

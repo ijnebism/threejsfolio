@@ -29,8 +29,9 @@ const apps = [
   },
 ];
 
-function PCPage() {
+function PCPage({ cameraControllerRef }) {
   const [openmWindows, setOpenmWindows] = useState([]);
+
 
   function openApp(id, position) {
     setOpenmWindows((prev) => {
@@ -70,7 +71,7 @@ function PCPage() {
           {apps.find((a) => a.id === app.id)?.content}
         </DraggableWindow>
       ))}
-      <TaskBar />
+      <TaskBar cameraControllerRef={cameraControllerRef} />
     </div>
   );
 }

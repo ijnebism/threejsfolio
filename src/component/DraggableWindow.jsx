@@ -74,7 +74,7 @@ function DraggableWindow({
             e.stopPropagation();
             onClose();
           }}
-          className=" absolute top-0 right-0 m-1 text-white font-bold hover:text-red-500"
+          className=" absolute top-0 right-0 m-0 text-white font-bold w-10 h-10 flex items-center justify-center hover:bg-red-500"
         >
           x
         </button>
