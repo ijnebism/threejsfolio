@@ -12,11 +12,15 @@ function Model(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <primitive object={nodes.Scene} />
-      <mesh geometry={nodes["Monitor"].geometry}>
+      <mesh
+        geometry={nodes["Screen"].geometry}
+        position={[0, 6.4, -0.69]}
+        visible={false}
+      >
         <Html
           className="content"
           rotation-x={0}
-          position={[0, 6.4, -0.6]}
+          position={[0, 0, 0.1]}
           transform
           occlude
           distanceFactor={1} // map DOM pixels more directly (tweak to taste)
