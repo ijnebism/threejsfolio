@@ -13,7 +13,7 @@ Explore an interactive 3D portfolio website built with Three.js, showcasing proj
 **Threejsfolio** is a 3D portfolio website that showcases projects in an interactive room environment. Users can navigate the room, interact with objects like a computer, bookshelf, and board, and view project details.
 
 ## TechStack
-<p align="center>
+<p align="center">
     <img src=https://skillicons.dev/icons?i=react,js,threejs,tailwindcss,blender,vite,npm />
 </p>
 
