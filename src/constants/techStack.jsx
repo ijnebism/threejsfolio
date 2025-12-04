@@ -1,4 +1,4 @@
-import { SiThreedotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
+import { SiThreedotjs, SiTypescript, SiTailwindcss, SiBlender } from "react-icons/si";
 import { FaReact, FaJs, FaUnity, FaHtml5, FaCss3Alt } from "react-icons/fa";
 
 export const techStack = [
@@ -73,5 +73,14 @@ export const techStack = [
 		initialX: 16,
 		initialY: 96,
 		link: "https://tailwindcss.com/",
+	},
+	{
+		id: "Blender",
+		label: "Blender",
+		icon: <SiBlender size={32} style={{ fill: "#F5792A" }} />,
+		isIconOnly: true,
+		initialX: 96,
+		initialY: 96,
+		link: "https://www.blender.org/",
 	},
 ];
