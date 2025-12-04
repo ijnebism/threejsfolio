@@ -32,9 +32,10 @@ function Folder({ apps }) {
             initialY={app.initialY}
             maxX={600 - 48}
             maxY={400 - 68}
+            isIconOnly={app.isIconOnly}
+            icon={app.icon}
             onOpen={() => {
-              // Hook this up to open a DraggableWindow if you want
-              console.log("Open inside folder:", app.label);
+              window.open(app.link, "_blank");
             }}
           />
         ))}

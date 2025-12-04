@@ -1,4 +1,6 @@
 function AboutMe() {
-  return <div>About Me Application Content</div>;
+  return <div className="w-[1400px] h-[800px] text-white">
+
+  </div>;
 }
 export default AboutMe;

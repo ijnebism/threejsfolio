@@ -8,7 +8,9 @@ function DraggableWindow({
   initialY,
   onClose,
   image,
+  icon,
   children,
+  isIconOnly = false,
 }) {
   const [position, setPosition] = useState({ x: initialX, y: initialY });
   const dragData = useRef({ scaleX: 1, scaleY: 1, dragging: false });
@@ -59,14 +61,14 @@ function DraggableWindow({
         onMouseDown={handleMouseDown}
       >
         <div className="flex gap-2">
-          {image && (
+          {(isIconOnly && icon) ? (icon) : (image && (
             <img
               src={image}
               alt={title}
               className="w-8 h-8"
               draggable={false}
             />
-          )}
+          ))}
           {title}
         </div>
         <button

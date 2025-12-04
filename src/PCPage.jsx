@@ -3,16 +3,10 @@ import DraggableApp from "./component/DraggableApp";
 import DraggableWindow from "./component/DraggableWindow";
 import { useState } from "react";
 import Folder from "./component/Folder";
+import AboutMe from "./component/aboutme";
+import { techStack as inFolderapps } from "./constants/techStack";
+import { CgProfile } from "react-icons/cg";
 
-const inFolderapps = [
-  {
-    id: "React",
-    label: "React",
-    image: "/react.png",
-    initialX: 16,
-    initialY: 16,
-  },
-];
 
 const apps = [
   {
@@ -25,7 +19,9 @@ const apps = [
     id: "aboutMe",
     title: "About Me",
     image: "/aboutme.png",
-    content: <div>About Me Application Content</div>,
+    icon: <CgProfile size={32} />,
+    isIconOnly: true,
+    content: <AboutMe />,
   },
 ];
 
@@ -54,6 +50,8 @@ function PCPage({ cameraControllerRef }) {
           maxX={1820 - 48}
           maxY={1080 - 68 - 72}
           image={app.image}
+          isIconOnly={app.isIconOnly}
+          icon={app.icon}
           onOpen={(position) => openApp(app.id, position)}
         />
       ))}
@@ -66,6 +64,8 @@ function PCPage({ cameraControllerRef }) {
           initialX={app.position.x + 50}
           initialY={app.position.y + 50}
           image={apps.find((a) => a.id === app.id)?.image}
+          isIconOnly={apps.find((a) => a.id === app.id)?.isIconOnly}
+          icon={apps.find((a) => a.id === app.id)?.icon}
           onClose={() => closeApp(app.id)}
         >
           {apps.find((a) => a.id === app.id)?.content}

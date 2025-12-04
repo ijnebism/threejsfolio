@@ -7,6 +7,8 @@ function DraggableApp({
   maxX,
   maxY,
   image,
+  isIconOnly,
+  icon,
   onOpen,
 }) {
   const [position, setPosition] = useState({ x: initialX, y: initialY });
@@ -62,16 +64,16 @@ function DraggableApp({
       onDoubleClick={handleDoubleClick}
     >
       <div className="w-12 h-12 rounded-md flex items-center justify-center">
-        {image && (
+        {(isIconOnly && icon) ? (icon) : (image && (
           <img
             src={image}
             alt={label}
             className="w-10 h-10"
             draggable={false}
           />
-        )}
+        ))}
       </div>
-      <span className="mt-1 max-w-20 text-center drop-shadow">{label}</span>
+      <span className="mt-1 max-w-16 text-center drop-shadow wrap-break-word">{label}</span>
     </div>
   );
 }
