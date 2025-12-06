@@ -4,16 +4,22 @@ import DraggableWindow from "./component/DraggableWindow";
 import { useState } from "react";
 import Folder from "./component/Folder";
 import AboutMe from "./component/aboutme";
-import { techStack as inFolderapps } from "./constants/techStack";
+import { techStack, projects } from "./constants/folderapps";
 import { CgProfile } from "react-icons/cg";
-
+import Experiences from "./component/experiences";
 
 const apps = [
   {
     id: "TechStack",
     title: "Tech Stack",
     image: "/folder.png",
-    content: <Folder apps={inFolderapps} />,
+    content: <Folder apps={techStack} />,
+  },
+  {
+    id: "Experiences",
+    title: "Experiences",
+    image: "/folder.png",
+    content: <Experiences />,
   },
   {
     id: "aboutMe",
@@ -23,11 +29,16 @@ const apps = [
     isIconOnly: true,
     content: <AboutMe />,
   },
+  {
+    id: "Projects",
+    title: "Projects",
+    image: "/folder.png",
+    content: <Folder apps={projects} />,
+  },
 ];
 
 function PCPage({ cameraControllerRef }) {
   const [openmWindows, setOpenmWindows] = useState([]);
-
 
   function openApp(id, position) {
     setOpenmWindows((prev) => {
@@ -45,8 +56,8 @@ function PCPage({ cameraControllerRef }) {
         <DraggableApp
           key={app.id}
           label={app.title}
-          initialX={64 * apps.indexOf(app)}
-          initialY={12}
+          initialX={12}
+          initialY={12 + apps.indexOf(app) * 80}
           maxX={1820 - 48}
           maxY={1080 - 68 - 72}
           image={app.image}
