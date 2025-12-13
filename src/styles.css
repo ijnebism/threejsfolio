@@ -80,3 +80,7 @@ input:focus {
   transform-origin: top left;
   pointer-events: auto;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
