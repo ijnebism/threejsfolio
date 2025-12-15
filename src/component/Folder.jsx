@@ -20,7 +20,7 @@ function Folder({ apps }) {
   return (
     <div
       ref={containerRef}
-      className="relative w-[600px] h-[400px] bg-slate-900/70  overflow-hidden"
+      className="relative w-[600px] h-[400px] bg-slate-900/70"
     >
       {bounds.width > 0 &&
         apps.map((app) => (

@@ -84,3 +84,24 @@ input:focus {
 ::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes scrollDot {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.scroll-dot {
+  animation: scrollDot 1.5s infinite ease-in-out;
+}

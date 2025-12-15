@@ -61,14 +61,16 @@ function DraggableWindow({
         onMouseDown={handleMouseDown}
       >
         <div className="flex gap-2">
-          {(isIconOnly && icon) ? (icon) : (image && (
-            <img
-              src={image}
-              alt={title}
-              className="w-8 h-8"
-              draggable={false}
-            />
-          ))}
+          {isIconOnly && icon
+            ? icon
+            : image && (
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-8 h-8"
+                  draggable={false}
+                />
+              )}
           {title}
         </div>
         <button
@@ -81,7 +83,7 @@ function DraggableWindow({
           x
         </button>
       </div>
-      <div className="bg-white text-black">{children}</div>
+      <div className="bg-white text-black overflow-auto">{children}</div>
     </div>
   );
 }

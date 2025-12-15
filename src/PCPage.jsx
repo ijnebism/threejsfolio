@@ -51,7 +51,10 @@ function PCPage({ cameraControllerRef }) {
     setOpenmWindows((prev) => prev.filter((app) => app.id !== id));
   }
   return (
-    <div className="h-full" style={{ backgroundImage: "url('/bg.png')" }}>
+    <div
+      className="h-full overflow-hidden"
+      style={{ backgroundImage: "url('/bg.png')" }}
+    >
       {apps.map((app) => (
         <DraggableApp
           key={app.id}
