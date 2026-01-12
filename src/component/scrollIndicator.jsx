@@ -1,22 +1,23 @@
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 
-function ScrollIndicator({ isRight, href }) {
+function ScrollIndicator({ onNext, onPrev, currentPage, totalPages }) {
   return (
     <>
-      {isRight ? (
-        <div className="absolute bottom-6 right-1 -translate-x-1/2">
+      {currentPage < totalPages && (
+        <div className="absolute right-1 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
             className="w-12 h-12 rounded-full border-2 border-[#ffffff] flex items-center justify-center cursor-pointer"
-            href={href}
+            onClick={onNext}
           >
             <FaAngleRight size={24} color="#ffffff" className="animate-pulse" />
           </div>
         </div>
-      ) : (
-        <div className="absolute bottom-6 left-1 translate-x-1/2">
+      )}
+      {currentPage > 1 && (
+        <div className="absolute left-1 top-1/2 translate-x-1/2 -translate-y-1/2">
           <div
             className="w-12 h-12 rounded-full border-2 border-[#ffffff] flex items-center justify-center cursor-pointer"
-            href={href}
+            onClick={onPrev}
           >
             <FaAngleLeft size={24} color="#ffffff" className="animate-pulse" />
           </div>
