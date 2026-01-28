@@ -7,7 +7,7 @@ import PCPage from "./PCPage.jsx";
 
 function Model(props) {
   const group = useRef();
-  const { nodes } = useGLTF("/scene.glb");
+  const { nodes } = useGLTF("/scene2.glb");
   const CameraControllerRef = props.cameraControllerRef;
   return (
     <group ref={group} {...props} dispose={null}>

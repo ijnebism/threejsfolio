@@ -4,7 +4,7 @@ import DraggableWindow from "./component/DraggableWindow";
 import { useState } from "react";
 import Folder from "./component/Folder";
 import AboutMe from "./component/aboutme";
-import { techStack, experiences } from "./constants/folderapps";
+import { techStack } from "./constants/folderapps";
 import { CgProfile } from "react-icons/cg";
 
 const apps = [
