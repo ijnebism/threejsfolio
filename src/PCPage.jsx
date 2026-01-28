@@ -4,9 +4,8 @@ import DraggableWindow from "./component/DraggableWindow";
 import { useState } from "react";
 import Folder from "./component/Folder";
 import AboutMe from "./component/aboutme";
-import { techStack, projects } from "./constants/folderapps";
+import { techStack, experiences } from "./constants/folderapps";
 import { CgProfile } from "react-icons/cg";
-import Experiences from "./component/experiences";
 
 const apps = [
   {
@@ -16,24 +15,12 @@ const apps = [
     content: <Folder apps={techStack} />,
   },
   {
-    id: "Experiences",
-    title: "Experiences",
-    image: "/folder.png",
-    content: <Experiences />,
-  },
-  {
     id: "aboutMe",
     title: "About Me",
     image: "/aboutme.png",
     icon: <CgProfile size={32} />,
     isIconOnly: true,
     content: <AboutMe />,
-  },
-  {
-    id: "Projects",
-    title: "Projects",
-    image: "/folder.png",
-    content: <Folder apps={projects} />,
   },
 ];
 

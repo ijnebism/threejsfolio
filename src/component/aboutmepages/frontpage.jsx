@@ -18,10 +18,6 @@ function FrontPage() {
           </p>
         </div>
       </div>
-      <p className="text-white text-lg text-center mb-4 mt-auto absolute bottom-4 w-full">
-        This is a page for my hobbies outside of software, if you want my skills
-        explore the desktop apps!
-      </p>
     </>
   );
 }

@@ -89,5 +89,3 @@ export const techStack = [
     link: "https://www.blender.org/",
   },
 ];
-
-export const projects = [];

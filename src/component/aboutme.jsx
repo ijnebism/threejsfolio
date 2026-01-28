@@ -2,6 +2,8 @@ import { useState } from "react";
 import FrontPage from "./aboutmepages/frontpage.jsx";
 import ScrollIndicator from "./scrollIndicator.jsx";
 import Hobbies from "./aboutmepages/hobbies.jsx";
+import Projects from "./aboutmepages/projects.jsx";
+import Experiences from "./aboutmepages/experiences.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 
 function AboutMe() {
@@ -27,7 +29,9 @@ function AboutMe() {
           transition={{ duration: 0.2, ease: "easeOut" }}
         >
           {page === 1 && <FrontPage />}
-          {page === 2 && <Hobbies />}
+          {page === 2 && <Experiences />}
+          {page === 3 && <Projects />}
+          {page === 4 && <Hobbies />}
         </motion.div>
       </AnimatePresence>
 
