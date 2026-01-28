@@ -4,11 +4,30 @@ import { Canvas } from "@react-three/fiber";
 import { Html, useGLTF } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
 import PCPage from "./PCPage.jsx";
+import { useState } from "react";
+import Notes from "./component/note.jsx";
 
 function Model(props) {
   const group = useRef();
-  const { nodes } = useGLTF("/scene2.glb");
+  const { nodes } = useGLTF("/scene.glb");
   const CameraControllerRef = props.cameraControllerRef;
+  const isEnabled = props.zoomed;
+
+  const [isNoteOpen, setIsNoteOpen] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
   return (
     <group ref={group} {...props} dispose={null}>
       <primitive object={nodes.Scene} />
@@ -23,11 +42,119 @@ function Model(props) {
           position={[0, 0, 0.1]}
           transform
           occlude
-          distanceFactor={1} // map DOM pixels more directly (tweak to taste)
-          scale={1} // explicit scale for transform-mode
+          distanceFactor={1}
+          scale={1}
         >
           <div className="wrapper" onPointerDown={(e) => e.stopPropagation()}>
             <PCPage cameraControllerRef={CameraControllerRef} />
+          </div>
+        </Html>
+      </mesh>
+      <mesh
+        geometry={nodes["Back"].geometry}
+        position={nodes["Back"].position}
+        rotation={nodes["Back"].rotation}
+        scale={nodes["Back"].scale}
+        visible={false}
+        onClick={
+          isEnabled
+            ? () => console.log(CameraControllerRef.current.resetCamera())
+            : undefined
+        }
+        onPointerEnter={
+          isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
+        }
+        onPointerLeave={
+          isEnabled ? () => (document.body.style.cursor = "auto") : undefined
+        }
+      ></mesh>
+      <mesh
+        geometry={nodes["Linkedin"].geometry}
+        position={nodes["Linkedin"].position}
+        rotation={nodes["Linkedin"].rotation}
+        scale={nodes["Linkedin"].scale}
+        visible={false}
+        onClick={
+          isEnabled
+            ? () => window.open("https://www.linkedin.com/in/bjqian", "_blank")
+            : undefined
+        }
+        onPointerEnter={
+          isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
+        }
+        onPointerLeave={
+          isEnabled ? () => (document.body.style.cursor = "auto") : undefined
+        }
+      ></mesh>
+      <mesh
+        geometry={nodes["Git"].geometry}
+        position={nodes["Git"].position}
+        rotation={nodes["Git"].rotation}
+        scale={nodes["Git"].scale}
+        visible={false}
+        onClick={
+          isEnabled
+            ? () => window.open("https://github.com/ijnebism", "_blank")
+            : undefined
+        }
+        onPointerEnter={
+          isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
+        }
+        onPointerLeave={
+          isEnabled ? () => (document.body.style.cursor = "auto") : undefined
+        }
+      />
+      <mesh
+        geometry={nodes["CV"].geometry}
+        position={nodes["CV"].position}
+        rotation={nodes["CV"].rotation}
+        scale={nodes["CV"].scale}
+        visible={false}
+        onClick={
+          isEnabled ? () => window.open("/public/CV.pdf", "_blank") : undefined
+        }
+        onPointerEnter={
+          isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
+        }
+        onPointerLeave={
+          isEnabled ? () => (document.body.style.cursor = "auto") : undefined
+        }
+      ></mesh>
+      <mesh
+        geometry={nodes["Leet"].geometry}
+        position={nodes["Leet"].position}
+        rotation={nodes["Leet"].rotation}
+        scale={nodes["Leet"].scale}
+        visible={false}
+        onClick={
+          isEnabled
+            ? () => window.open("https://leetcode.com/ijneb/", "_blank")
+            : undefined
+        }
+        onPointerEnter={
+          isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
+        }
+        onPointerLeave={
+          isEnabled ? () => (document.body.style.cursor = "auto") : undefined
+        }
+      ></mesh>
+      <mesh
+        geometry={nodes["Note"].geometry}
+        position={nodes["Note"].position}
+        rotation={nodes["Note"].rotation}
+        scale={nodes["Note"].scale}
+        visible={false}
+      >
+        <Html
+          className="noteContent"
+          position={[0.3, -0.05, 0.0]}
+          transform
+          rotation-y={90 * (Math.PI / 180)}
+          distanceFactor={1}
+          scale={1}
+        >
+          <div className="wrapper" onPointerDown={(e) => e.stopPropagation()}>
+            <Notes />
           </div>
         </Html>
       </mesh>
@@ -58,6 +185,8 @@ export default function App() {
   const bookPos = useRef();
 
   const CameraControllerRef = useRef();
+
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return (
     <Canvas camera={{ rotation: [0, 0, 0], position: [0, 8.3, 15], fov: 45 }}>
@@ -127,12 +256,15 @@ export default function App() {
       <LightTargetBinder lightRef={boardLightRef} targetRef={boardPos} />
 
       <fog attach="fog" args={[0x000000, 1, 33]} />
-      <Model cameraControllerRef={CameraControllerRef} />
+      <Model cameraControllerRef={CameraControllerRef} zoomed={isZoomed} />
       <CameraController
         ref={CameraControllerRef}
         mainLightRef={mainLightRef}
         bookLightRef={bookLightRef}
         boardLightRef={boardLightRef}
+        onZoomChange={(isZoomed) => {
+          setIsZoomed(isZoomed);
+        }}
       />
     </Canvas>
   );

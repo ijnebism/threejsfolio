@@ -43,25 +43,6 @@ svg {
   }
 }
 
-input {
-  font-family: "Inter";
-  width: 100px;
-  border: none;
-  background-image: none;
-  background-color: transparent;
-  color: transparent;
-  caret-color: #555;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  font-weight: 400;
-}
-
-input:focus {
-  outline: none;
-  box-shadow: none !important;
-}
-
 .content {
   width: 1820px;
   height: 1080px;
@@ -79,6 +60,11 @@ input:focus {
   transform: scale(1);
   transform-origin: top left;
   pointer-events: auto;
+}
+
+.noteContent {
+  width: 700px;
+  height: 600px;
 }
 
 ::-webkit-scrollbar {

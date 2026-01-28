@@ -14,8 +14,8 @@ import {
 import { navigateToPreset } from "./utils/camera_controls/camera.js";
 
 const CameraController = forwardRef(function CameraController(
-  { mainLightRef, bookLightRef, boardLightRef },
-  ref
+  { mainLightRef, bookLightRef, boardLightRef, onZoomChange },
+  ref,
 ) {
   const { camera, gl } = useThree();
   const mouse = useRef({ x: 0, y: 0 });
@@ -27,6 +27,7 @@ const CameraController = forwardRef(function CameraController(
       navigateToPreset(camera, "DEFAULT", 1);
       setTimeout(() => {
         zoomed.current = false;
+        if (onZoomChange) onZoomChange(false);
       }, 1000); // match duration
 
       if (mainLightRef?.current) mainLightRef.current.visible = true;
@@ -73,6 +74,7 @@ const CameraController = forwardRef(function CameraController(
       else if (nx < -0.5) navigateToPreset(camera, "BOARD", 1);
       else navigateToPreset(camera, "SCREEN", 1);
       zoomed.current = true;
+      if (onZoomChange) onZoomChange(true);
     };
 
     window.addEventListener("mousemove", onMouseMove);
