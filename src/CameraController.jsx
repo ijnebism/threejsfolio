@@ -70,8 +70,11 @@ const CameraController = forwardRef(function CameraController(
     const onClick = () => {
       if (zoomed.current) return;
       const nx = mouse.current.x;
-      if (nx > 0.3) navigateToPreset(camera, "BOOKS", 1);
-      else if (nx < -0.5) navigateToPreset(camera, "BOARD", 1);
+      if (nx > 0.3) {
+        // navigateToPreset(camera, "BOOKS", 1);
+        alert("Books section is under development!");
+        return;
+      } else if (nx < -0.5) navigateToPreset(camera, "BOARD", 1);
       else navigateToPreset(camera, "SCREEN", 1);
       zoomed.current = true;
       if (onZoomChange) onZoomChange(true);
