@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
-import { Html, useGLTF } from "@react-three/drei";
+import { Html, useGLTF, useProgress } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
 import PCPage from "./PCPage.jsx";
-import { useState } from "react";
 import Notes from "./component/note.jsx";
 
 function Model(props) {
@@ -12,21 +11,6 @@ function Model(props) {
   const { nodes } = useGLTF("/scene.glb");
   const CameraControllerRef = props.cameraControllerRef;
   const isEnabled = props.zoomed;
-
-  const [isNoteOpen, setIsNoteOpen] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
-  };
 
   return (
     <group ref={group} {...props} dispose={null}>
@@ -160,7 +144,6 @@ function Model(props) {
   );
 }
 
-/** Binds each light's target once both refs exist (runs inside Canvas). */
 function LightTargetBinder({ lightRef, targetRef }) {
   useEffect(() => {
     const l = lightRef.current;
@@ -171,6 +154,69 @@ function LightTargetBinder({ lightRef, targetRef }) {
     l.updateMatrixWorld();
   }, [lightRef, targetRef]);
   return null;
+}
+function LoadingOverlay() {
+  const { progress } = useProgress();
+  const p = Math.max(1, Math.floor(progress));
+  return (
+    <Html fullscreen style={{ pointerEvents: "none" }}>
+      <div className="absolute items-center left-1/2 -translate-x-1/2 top-0 -translate-y-[200px] bg-black/60 text-white mb-100">
+        <div className="w-[520px] max-w-[92vw] rounded-2xl bg-white/10 p-6 backdrop-blur-md border border-white/10">
+          <h1 className="text-2xl font-bold">Loading…</h1>
+          <div className="mt-4 h-2 w-full rounded-full bg-white/15 overflow-hidden">
+            <div
+              className="h-full bg-white/80 transition-all duration-200"
+              style={{ width: `${p}%` }}
+            />
+          </div>
+          <div className="mt-2 text-xs text-white/70">{p}%</div>
+        </div>
+      </div>
+    </Html>
+  );
+}
+
+function IntroOverlay({ onEnter }) {
+  return (
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black text-white">
+      <div className="w-[680px] max-w-[92vw] rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md">
+        <h1 className="text-3xl font-bold">Best on desktop</h1>
+
+        <p className="mt-3 text-white/80">
+          This site uses 3D/WebGL. For the smoothest experience, use{" "}
+          <span className="font-semibold">desktop</span> and enable{" "}
+          <span className="font-semibold">Hardware Acceleration</span>.
+        </p>
+
+        <div className="mt-5 rounded-2xl bg-white/5 p-4 text-sm text-white/75 space-y-2">
+          <div>
+            <span className="font-semibold text-white/85">Chrome / Edge:</span>{" "}
+            Settings → System → “Use hardware acceleration when available”
+          </div>
+          <div>
+            <span className="font-semibold text-white/85">Firefox:</span>{" "}
+            Settings → General → Performance → enable hardware acceleration
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={onEnter}
+            className="rounded-2xl px-6 py-3 font-semibold bg-white text-black hover:bg-white/90 transition"
+          >
+            Enter site
+          </button>
+
+          <button
+            onClick={() => window.open("/CV.pdf", "_blank")}
+            className="rounded-2xl px-6 py-3 font-semibold border border-white/20 hover:bg-white/10 transition"
+          >
+            Open CV
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
@@ -185,85 +231,96 @@ export default function App() {
   const CameraControllerRef = useRef();
 
   const [isZoomed, setIsZoomed] = useState(false);
+  const [entered, setEntered] = useState(false);
 
   return (
-    <Canvas camera={{ rotation: [0, 0, 0], position: [0, 8.3, 15], fov: 45 }}>
-      <ambientLight intensity={0.35} />
+    <div className="h-screen w-screen">
+      {!entered && <IntroOverlay onEnter={() => setEntered(true)} />}
 
-      {/* Targets MUST be scene children */}
-      <group ref={boardPos} position={[-13.2, 6.8, 5.6]} />
-      <group ref={bookPos} position={[10, 5, 0]} />
-      <group ref={mainPos} position={[0, 0, 0]} />
+      {entered && (
+        <Canvas
+          camera={{ rotation: [0, 0, 0], position: [0, 8.3, 15], fov: 45 }}
+        >
+          <Suspense fallback={<LoadingOverlay />}>
+            <ambientLight intensity={0.35} />
 
-      {/* Lights (no `target` prop). Set visible=true temporarily to verify aim */}
-      <spotLight
-        ref={mainLightRef}
-        position={[0, 10.5, 0.5]}
-        angle={0.8}
-        intensity={50}
-        penumbra={1}
-        castShadow
-        visible
-        onUpdate={(l) => {
-          const t = mainPos.current;
-          if (t) {
-            l.target = t;
-            t.updateMatrixWorld();
-            l.updateMatrixWorld();
-          }
-        }}
-      />
-      <spotLight
-        ref={bookLightRef}
-        position={[9, 5, 7]}
-        angle={0.8}
-        intensity={50}
-        penumbra={1}
-        castShadow
-        visible
-        onUpdate={(l) => {
-          const t = bookPos.current;
-          if (t) {
-            l.target = t;
-            t.updateMatrixWorld();
-            l.updateMatrixWorld();
-          }
-        }}
-      />
-      <spotLight
-        ref={boardLightRef}
-        position={[-5.2, 5, 0]}
-        angle={0.5}
-        intensity={50}
-        penumbra={1}
-        castShadow
-        visible
-        onUpdate={(l) => {
-          const t = boardPos.current;
-          if (t) {
-            l.target = t;
-            t.updateMatrixWorld();
-            l.updateMatrixWorld();
-          }
-        }}
-      />
+            <group ref={boardPos} position={[-13.2, 6.8, 5.6]} />
+            <group ref={bookPos} position={[10, 5, 0]} />
+            <group ref={mainPos} position={[0, 0, 0]} />
 
-      {/* One-time binders (pure React hook, safe inside Canvas) */}
-      <LightTargetBinder lightRef={mainLightRef} targetRef={mainPos} />
-      <LightTargetBinder lightRef={bookLightRef} targetRef={bookPos} />
-      <LightTargetBinder lightRef={boardLightRef} targetRef={boardPos} />
+            <spotLight
+              ref={mainLightRef}
+              position={[0, 10.5, 0.5]}
+              angle={0.8}
+              intensity={50}
+              penumbra={1}
+              castShadow
+              visible
+              onUpdate={(l) => {
+                const t = mainPos.current;
+                if (t) {
+                  l.target = t;
+                  t.updateMatrixWorld();
+                  l.updateMatrixWorld();
+                }
+              }}
+            />
+            <spotLight
+              ref={bookLightRef}
+              position={[9, 5, 7]}
+              angle={0.8}
+              intensity={50}
+              penumbra={1}
+              castShadow
+              visible
+              onUpdate={(l) => {
+                const t = bookPos.current;
+                if (t) {
+                  l.target = t;
+                  t.updateMatrixWorld();
+                  l.updateMatrixWorld();
+                }
+              }}
+            />
+            <spotLight
+              ref={boardLightRef}
+              position={[-5.2, 5, 0]}
+              angle={0.5}
+              intensity={50}
+              penumbra={1}
+              castShadow
+              visible
+              onUpdate={(l) => {
+                const t = boardPos.current;
+                if (t) {
+                  l.target = t;
+                  t.updateMatrixWorld();
+                  l.updateMatrixWorld();
+                }
+              }}
+            />
 
-      <fog attach="fog" args={[0x000000, 1, 33]} />
-      <Model cameraControllerRef={CameraControllerRef} zoomed={isZoomed} />
-      <CameraController
-        ref={CameraControllerRef}
-        mainLightRef={mainLightRef}
-        bookLightRef={bookLightRef}
-        boardLightRef={boardLightRef}
-        onZoomChange={(isZoomed) => {
-          setIsZoomed(isZoomed);
-        }}
-      />
-    </Canvas>
+            <LightTargetBinder lightRef={mainLightRef} targetRef={mainPos} />
+            <LightTargetBinder lightRef={bookLightRef} targetRef={bookPos} />
+            <LightTargetBinder lightRef={boardLightRef} targetRef={boardPos} />
+
+            <fog attach="fog" args={[0x000000, 1, 33]} />
+            <Model
+              cameraControllerRef={CameraControllerRef}
+              zoomed={isZoomed}
+            />
+            <CameraController
+              ref={CameraControllerRef}
+              mainLightRef={mainLightRef}
+              bookLightRef={bookLightRef}
+              boardLightRef={boardLightRef}
+              onZoomChange={(isZoomed) => {
+                setIsZoomed(isZoomed);
+              }}
+            />
+          </Suspense>
+        </Canvas>
+      )}
+    </div>
   );
 }
