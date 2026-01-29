@@ -110,9 +110,7 @@ function Model(props) {
         rotation={nodes["CV"].rotation}
         scale={nodes["CV"].scale}
         visible={false}
-        onClick={
-          isEnabled ? () => window.open("/public/CV.pdf", "_blank") : undefined
-        }
+        onClick={isEnabled ? () => window.open("/CV.pdf", "_blank") : undefined}
         onPointerEnter={
           isEnabled ? () => (document.body.style.cursor = "pointer") : undefined
         }
