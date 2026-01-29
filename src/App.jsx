@@ -198,6 +198,10 @@ function IntroOverlay({ onEnter }) {
             Settings → General → Performance → enable hardware acceleration
           </div>
         </div>
+        <p className="mt-3 text-white/80">
+          If you are using a mobile device, please rotate landscape and only tap{" "}
+          the screen to interact.
+        </p>
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <button
