@@ -5,8 +5,8 @@ import { Html, useGLTF, useProgress } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
 import PCPage from "./PCPage.jsx";
 import Notes from "./component/note.jsx";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function Model(props) {
   const group = useRef();
