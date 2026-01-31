@@ -5,6 +5,8 @@ import { Html, useGLTF, useProgress } from "@react-three/drei";
 import CameraController from "./CameraController.jsx";
 import PCPage from "./PCPage.jsx";
 import Notes from "./component/note.jsx";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function Model(props) {
   const group = useRef();
@@ -239,6 +241,8 @@ export default function App() {
 
   return (
     <div className="h-screen w-screen">
+      <Analytics />
+      <SpeedInsights />
       {!entered && <IntroOverlay onEnter={() => setEntered(true)} />}
 
       {entered && (
