@@ -7,7 +7,7 @@ function Projects() {
     {
       id: "threejsFolio",
       title: "Personal Portfolio Website",
-      skills: ["React", "Three.js", "Framer Motion"],
+      skills: ["React", "Three.js", "Framer Motion", "Blender"],
       desc: (
         <>
           <p>
@@ -34,6 +34,22 @@ function Projects() {
       images: ["/projects/portfolio1.png", "/projects/portfolio2.png"],
     },
     {
+      id: "vrcycle",
+      title: "VR Cycling Safety Simulator",
+      skills: ["Unity", "C#", "VR Development", "Blender"],
+      desc: (
+        <>
+          <p>
+            Created a VR bicycle simulator to support controlled human factors
+            research. This included refining environmental variables such as
+            traffic density and road layout, and integrating spatialised ambient
+            audio to examine its effect on cyclist safety perception.
+          </p>
+        </>
+      ),
+      images: ["/projects/vrbike1.png", "/projects/vrbike2.png"],
+    },
+    {
       id: "beatweights",
       title: "BeatWeights",
       skills: ["Unity", "C#", "VR Development"],
@@ -50,7 +66,7 @@ function Projects() {
           </p>
           <br />
           <a
-            href="https://github.com/ijnebism/beat-weights"
+            href="https://github.com/ijnebism/beat-weight"
             className="inline-flex items-center"
             target="_blank"
             rel="noopener noreferrer"
